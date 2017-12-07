@@ -2,16 +2,16 @@
 // @name         TagPro Good Games
 // @description  Use gg's to get statistics about maps! tiny.cc/goodgames
 // @author       Ko
-// @version      1.1
+// @version      1.2
 // @supportURL   https://www.reddit.com/message/compose/?to=Wilcooo
 // @website      https://tiny.cc/goodgames
-// @downloadURL  https://github.com/wilcooo/TagPro-GoodGames/raw/master/tpgg.user.js
 // @include      http://tagpro-*.koalabeast.com:*
 // @connect      script.google.com
 // @connect      script.googleusercontent.com
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @license      MIT
+// @namespace https://greasyfork.org/users/152992
 // ==/UserScript==
 
 
@@ -61,7 +61,7 @@ function new_uniqueID(){
     GM_setValue('uniqueID',uniqueID);
     return uniqueID;
 }
-data.uniqueID = GM_getValue('uniqueID', new_uniqueID());
+data.uniqueID = GM_getValue('uniqueID') || new_uniqueID();
 
 // To prevent players to be able to say 'gg' multiple times,
 //   this var keeps track of who have said 'gg' before, and when.
@@ -78,9 +78,8 @@ tagpro.ready(function() {
 
     // Intercept every chat message
     tagpro.socket.on('chat', function(chat) {
-        console.log(chat);
         if (chat.message.toLowerCase().includes('gg') &&         // If it's a GG
-            typeof chat.from == 'number' &&                      // and it's from a player (not a mod/groupmember)
+            Number.isInteger( chat.from ) &&                     // and it's from a player (not a mod/groupmember)
             chat.to == 'all' ) {                                 // and it's sent to all (not team)
 
             // Store it
@@ -104,7 +103,7 @@ tagpro.ready(function() {
         data.redPlayers = 0;
         data.bluePlayers = 0;
         for (var id in tagpro.players) {
-            if (tagpro.players.hasOwnProperty(playerId)) {
+            if (tagpro.players.hasOwnProperty(id)) {
                 if (tagpro.players[id].team == 1) data.redPlayers++;
                 if (tagpro.players[id].team == 2) data.bluePlayers++;
             }
