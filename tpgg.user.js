@@ -57,7 +57,7 @@ var data = {};
 function new_uniqueID(){
     var uniqueID = "";
     var chars  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    for (var n = 0; n < 16; n++) unique += chars.charAt(Math.floor(Math.random() * chars.length));
+    for (var n = 0; n < 16; n++) uniqueID += chars.charAt(Math.floor(Math.random() * chars.length));
     GM_setValue('uniqueID',uniqueID);
     return uniqueID;
 }
