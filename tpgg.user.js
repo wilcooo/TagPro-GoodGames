@@ -2,7 +2,7 @@
 // @name         TagPro Good Games
 // @description  Use gg's to get statistics about maps! tiny.cc/goodgames
 // @author       Ko
-// @version      1.0
+// @version      1.1
 // @supportURL   https://www.reddit.com/message/compose/?to=Wilcooo
 // @website      https://tiny.cc/goodgames
 // @downloadURL  https://github.com/wilcooo/TagPro-GoodGames/raw/master/tpgg.user.js
