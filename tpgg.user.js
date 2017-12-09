@@ -2,7 +2,7 @@
 // @name         TagPro Good Games
 // @description  Use gg's to get statistics about maps! tiny.cc/goodgames
 // @author       Ko
-// @version      1.2
+// @version      1.3
 // @supportURL   https://www.reddit.com/message/compose/?to=Wilcooo
 // @website      https://tiny.cc/goodgames
 // @include      http://tagpro-*.koalabeast.com:*
@@ -22,9 +22,16 @@
     //                                                                //
     //                TL;DR: DO NOT EDIT THIS SCRIPT !!               //
     //                                                                //
-    //        This script is made to collect non-anonymous            //
-    //        data. By using it, you agree with that. To see          //
-    //        all data, you can go to tiny.cc/goodgames.              //
+    //        This script will collect some data of the games         //
+    //        that you play. To see all data, you can go to           //
+    //        tiny.cc/goodgames. No other data than what is           //
+    //        visible on the 'rawData' sheet is sent. If you          //
+    //        don't want your username to be stored, enable           //
+    //        'anonymity' in the options below. Even with it          //
+    //        enabled, it is theoretically possible for               //
+    //        someone to find out that you use this script, by        //
+    //        comparing the data with that of TagPro Analytics        //
+    //        (tagpro.eu)                                             //
     //                                                                //
     //        Please do not alter this script in any way, as          //
     //        it may pollute the data. It would be                    //
@@ -43,25 +50,47 @@
 
 
 
+////////////////////////////////////////////////////////////////////////////////////////////
+//     ### --- OPTIONS --- ###                                                            //
+////////////////////////////////////////////////////////////////////////////////////////  //
+                                                                                      //  //
+// By changing false to true, your TagPro username won't be send with the data.       //  //
+// and the 'uniqueID' will be changed.                                                //  //
+var anonymity = true;                                                                 //  //
+                                                                                      //  //
+////////////////////////////////////////////////////////////////////////////////////////  //
+//                                                     ### --- END OF OPTIONS --- ###     //
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 // The URL to post the data to
 var POST_URL = "https://script.google.com/macros/s/AKfycbzZcmWaKvendh1ziz2mloTWJvsMMTbmZcPy_HUgT4yrtvh6SguC/exec";
 
-// Remove the slashes (//) before the next line if you want to edit this script.
+// Remove the slashes (//) before the next line if you want to play with this script.
+//   Don't send false data to the real URL.
 // var POST_URL = "http://www.example.com/_This_Is_A_Fake_URL_"
 
 // All data will be stored in this var
 var data = {};
 
 // Get your unique id from the userscripts storage, or create a new one.
-function new_uniqueID(){
-    var uniqueID = "";
+// This is used to detect data manipulation
+function generateID(storage){
+    var ID = "";
     var chars  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    for (var n = 0; n < 16; n++) uniqueID += chars.charAt(Math.floor(Math.random() * chars.length));
-    GM_setValue('uniqueID',uniqueID);
+    for (var n = 0; n < 16; n++) ID += chars.charAt(Math.floor(Math.random() * chars.length));
+    GM_setValue(storage,ID);
     return uniqueID;
 }
-data.uniqueID = GM_getValue('uniqueID') || new_uniqueID();
+
+// There is a seperate anonymousID
+var whichID = anonymity ? 'anonymousID' : 'normalID';
+
+data.uniqueID = GM_getValue( whichID ) || generateID( whichID );
 
 // To prevent players to be able to say 'gg' multiple times,
 //   this var keeps track of who have said 'gg' before, and when.
@@ -94,8 +123,8 @@ tagpro.ready(function() {
         data.gameEndsAt = tagpro.gameEndsAt.getTime();
         data.server     = tagproConfig.serverHost.replace('tagpro-','').replace('.koalabeast.com','');
         data.group      = Boolean( end.groupId );
-        data.name       = tagpro.players[tagpro.playerId].name;
-        data.auth       = tagpro.players[tagpro.playerId].auth;
+        data.name       = anonymity ?  ""   : tagpro.players[tagpro.playerId].name;
+        data.auth       = anonymity ? false : tagpro.players[tagpro.playerId].auth;
         data.redScore   = tagpro.score.r;
         data.blueScore  = tagpro.score.b;
 
