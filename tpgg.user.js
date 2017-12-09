@@ -56,7 +56,7 @@
                                                                                       //  //
 // By changing false to true, your TagPro username won't be send with the data.       //  //
 // and the 'uniqueID' will be changed.                                                //  //
-var anonymity = true;                                                                 //  //
+var anonymity = false;                                                                //  //
                                                                                       //  //
 ////////////////////////////////////////////////////////////////////////////////////////  //
 //                                                     ### --- END OF OPTIONS --- ###     //
