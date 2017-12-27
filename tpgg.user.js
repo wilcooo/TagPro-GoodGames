@@ -2,7 +2,7 @@
 // @name         TagPro Good Games
 // @description  Use gg's to get statistics about maps! tiny.cc/goodgames
 // @author       Ko
-// @version      1.3
+// @version      1.4
 // @supportURL   https://www.reddit.com/message/compose/?to=Wilcooo
 // @website      https://tiny.cc/goodgames
 // @include      http://tagpro-*.koalabeast.com:*
@@ -123,8 +123,8 @@ tagpro.ready(function() {
         data.gameEndsAt = tagpro.gameEndsAt.getTime();
         data.server     = tagproConfig.serverHost.replace('tagpro-','').replace('.koalabeast.com','');
         data.group      = Boolean( end.groupId );
-        data.name       = anonymity ?  ""   : tagpro.players[tagpro.playerId].name;
-        data.auth       = anonymity ? false : tagpro.players[tagpro.playerId].auth;
+        data.name       = anonymity || tagpro.spectator ? "" : tagpro.players[tagpro.playerId].name;
+        data.auth       = anonymity || tagpro.spectator ? "" : tagpro.players[tagpro.playerId].auth;
         data.redScore   = tagpro.score.r;
         data.blueScore  = tagpro.score.b;
 
