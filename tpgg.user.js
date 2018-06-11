@@ -8,7 +8,7 @@
 // @include      http://tagpro-*.koalabeast.com:*
 // @connect      script.google.com
 // @connect      script.googleusercontent.com
-// @download     https://github.com/wilcooo/TagPro-Userscript/raw/master/tpus.user.js
+// @download     https://github.com/wilcooo/TagPro-GoodGames/raw/master/tpgg.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @license      MIT
